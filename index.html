@@ -403,7 +403,7 @@
           <button class="btn-primary" onclick="initModel()">Load Model</button>
         </div>
         <div class="gesture-hint">
-          Pastikan model memiliki 4 kelas: A, B, C, dan D
+          Pastikan model memiliki 4 kelas: A, B, C, D (dan opsional BACKGROUND)
         </div>
       </div>
 
@@ -485,7 +485,7 @@
       let isQuizActive = false;
       let currentQuestionIndex = 0;
       let score = 0;
-      let timeLeft = 3;
+      let timeLeft = 5;
       let timer;
       let questions = [];
       let lastDetectedGesture = "";
@@ -625,7 +625,11 @@
           const classPrediction = className + ": " + probability.toFixed(2);
           labelContainer.childNodes[i].innerHTML = classPrediction;
 
-          if (probability > maxProb) {
+          // Ignore BACKGROUND class when finding max probability
+          if (
+            probability > maxProb &&
+            className.toUpperCase() !== "BACKGROUND"
+          ) {
             maxProb = probability;
             maxClass = className;
           }
@@ -706,7 +710,7 @@
         lastDetectedGesture = "";
 
         // Start timer
-        timeLeft = 3;
+        timeLeft = 5;
         document.getElementById("timer").textContent = timeLeft;
 
         timer = setInterval(() => {
@@ -781,7 +785,7 @@
         isQuizActive = false;
         currentQuestionIndex = 0;
         score = 0;
-        timeLeft = 3;
+        timeLeft = 5;
         lastDetectedGesture = "";
 
         document.getElementById("finalScore").style.display = "none";
